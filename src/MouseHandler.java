@@ -27,6 +27,7 @@ public class MouseHandler implements MouseListener{
         // TODO Auto-generated method stub
         // if the game isnt finished
         if (!game.gameState) {
+            // isMetaDown is right mouse button
             if (!e.isMetaDown()) {
                 if (button.exposed) {
                     System.out.println("ble");
@@ -37,12 +38,8 @@ public class MouseHandler implements MouseListener{
                     button.expose();
                     game.massExpose(button);
                     game.checkWin();
-                    // instead of recursion, i just put the massexpose function inside the expose func
-                    // if another mine in the proximity has been exposed, it will check every other mine
-                    // around it too
-                    // found this on complete accident
-                    // it is pretty bad practice tho lol
-                    // if the button is a mine then expose the entire thing
+                    
+                    // booms it all if the thing clicked is -1
                     if (button.minenum.getText().equals(Integer.toString(-1))) {
                         game.gameOver(game.buttongrid);
                     }

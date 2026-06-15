@@ -19,9 +19,9 @@ import javax.swing.JPanel;
 // main class that runs stuff
 public class App {
     // class variables
-    int rows = 16;
-    int columns = 30;
-    int mines = 99;
+    int rows = 12;
+    int columns = 10;
+    int mines = 10;
     int tilecount = rows*columns-1;
     public boolean gameState = false; // gameover or not
     JFrame frame = new JFrame("Bozo zone");
