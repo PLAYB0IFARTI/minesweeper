@@ -17,7 +17,6 @@ public class auxMouseHandler implements MouseListener {
     @Override
     public void mouseClicked(MouseEvent e) {
         JButton button = (JButton)e.getSource();
-        System.out.println(button.getLabel());
         if (button.getText() == "restart") {game.buildField();}
         else {help.show();}
     }

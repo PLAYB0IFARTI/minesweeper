@@ -25,26 +25,32 @@ public class MouseHandler implements MouseListener{
     public void mouseReleased(MouseEvent e) {
         MSButton button = (MSButton)e.getSource();
         // TODO Auto-generated method stub
-        // turns the object into a button
+        // if the game isnt finished
         if (!game.gameState) {
             if (!e.isMetaDown()) {
-                button.expose();
-                game.massExpose(button);
-                game.checkWin();
-                // instead of recursion, i just put the massexpose function inside the expose func
-                // if another mine in the proximity has been exposed, it will check every other mine
-                // around it too
-                // found this on complete accident
-                // it is pretty bad practice tho lol
-                // if the button is a mine then expose the entire thing
-                if (button.minenum.getText().equals(Integer.toString(-1))) {
-                    game.gameOver(game.buttongrid);
+                if (button.exposed) {
+                    System.out.println("ble");
+                    game.checkAround(button);
                 }
+                else if (!button.exposed) {
+                    System.out.println("ble");
+                    button.expose();
+                    game.massExpose(button);
+                    game.checkWin();
+                    // instead of recursion, i just put the massexpose function inside the expose func
+                    // if another mine in the proximity has been exposed, it will check every other mine
+                    // around it too
+                    // found this on complete accident
+                    // it is pretty bad practice tho lol
+                    // if the button is a mine then expose the entire thing
+                    if (button.minenum.getText().equals(Integer.toString(-1))) {
+                        game.gameOver(game.buttongrid);
+                    }
+                    }
             }
             // if right click is down yea do that function 
-            if (e.isMetaDown()) {
+            else if (e.isMetaDown()) {
                 button.setFlag();
-                System.out.println("charlie kirk");
             }
         }
     }

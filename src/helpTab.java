@@ -4,13 +4,19 @@ import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.Font;
 
+// this is the window that pops up for aid
+
+
 public class helpTab {
     JFrame frame = new JFrame();
-    private boolean state = false;
-    public helpTab() {
+    private boolean state = false; // if its visible or invisible
 
+    public helpTab() {
+        // frame stuff
         frame.setVisible(false);
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // dont make it close the everything here
+
+        // text n stuff
         JPanel panel = new JPanel();
         JLabel text = new JLabel("HOW TO PLAY THE GAME!!!!!");
         Font style = new Font(Font.SANS_SERIF, Font.BOLD,40);
@@ -18,6 +24,8 @@ public class helpTab {
         panel.add(text); frame.add(panel, BorderLayout.NORTH);
         frame.pack();
     }
+
+    // this function just sets it true or false
     public void show() {
         if (!state) {
             frame.setVisible(true);

@@ -19,9 +19,9 @@ import javax.swing.JPanel;
 // main class that runs stuff
 public class App {
     // class variables
-    int rows = 10;
-    int columns = 20;
-    int mines = 10;
+    int rows = 16;
+    int columns = 30;
+    int mines = 99;
     int tilecount = rows*columns-1;
     public boolean gameState = false; // gameover or not
     JFrame frame = new JFrame("Bozo zone");
@@ -123,9 +123,6 @@ public class App {
 
     // this mass exposes 0s and the numbers on the 0s edges if theres a 0 exposed
     public void massExpose(MSButton button) {
-        // this is pretty inefficient because i have this in my mousehandler class
-        // it does it everytime a mine is exposed, that includes a game over
-        // noticable lag comes, which i wanna fix
         int sqrx = button.location[0];
         int sqry = button.location[1];
         // I dont use the inbounds func lol
@@ -153,6 +150,38 @@ public class App {
 
     }
 
+    // checks a already pressed buttons whats around it if theres an ample amount of flags
+    public void checkAround(MSButton button) {
+        int sqrx = button.location[0];
+        int sqry = button.location[1];
+        int flaggedBtns = 0;
+        // looks around for flagged btns
+        for (int row1 = sqrx - 1; row1 < sqrx + 2; row1++) {
+                for (int col1 = sqry - 1; col1 < sqry + 2; col1++) {
+                    if (buttongrid[row1][col1].flagged && inBounds(row1, col1)) {
+                        flaggedBtns += 1;
+                    }
+
+        // this actually exposes buttons
+        if (button.getNum() == flaggedBtns) {
+            for (int row2 = sqrx - 1; row2 < sqrx + 2; row2++) {
+                for (int col2 = sqry - 1; col2 < sqry + 2; col2++) {
+                    if (!buttongrid[row2][col2].getStat() && inBounds(row2, col2)) {
+                        buttongrid[row2][col2].expose();
+                        // yea if u guessed a mine wrong get wrecked
+                        if (buttongrid[row2][col2].getStat() && buttongrid[row2][col2].getNum() == -1) {
+                            this.gameOver(buttongrid);
+                        }
+                        // if a 0 is nearby then runs mass expose
+                        if (buttongrid[row2][col2].getNum() == 0) {
+                            this.massExpose(buttongrid[row2][col2]);
+                        }
+                    }
+        }
+    }
+    }}}
+    }
+
     public void buildField() {
         // makes the mine pattern in here cuz if it wasnt here
         // every mine would display 0
@@ -178,6 +207,8 @@ public class App {
         JPanel topPanel = new JPanel();
         JLabel time = new JLabel();
         JLabel mineAmt = new JLabel();
+
+        // some auxiliary buttons
         JButton restartBtn = new JButton(); restartBtn.setPreferredSize(new Dimension(rows*50/4, 50));
         restartBtn.setText("restart");
         restartBtn.addMouseListener(amh);
